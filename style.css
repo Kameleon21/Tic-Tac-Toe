@@ -1,0 +1,50 @@
+@import url("https://fonts.googleapis.com/css2?family=Teko&display=swap");
+
+:root {
+  --main-clr: #571bb8;
+}
+
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
+body {
+  background-color: var(--main-clr);
+  font-family: "Teko", sans-serif, Georgia, "Times New Roman", Times, serif;
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* header */
+.head {
+  margin-top: 1.5rem;
+  text-align: center;
+  letter-spacing: 2px;
+  border: 1px white dashed;
+  width: fit-content;
+  place-self: center;
+  padding: 8px;
+  border-radius: 5px;
+}
+/* game board */
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.gangboard {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.child {
+  width: 200;
+  height: 200;
+}
+
+/* footer */
