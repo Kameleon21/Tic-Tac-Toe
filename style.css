@@ -2,6 +2,10 @@
 
 :root {
   --main-clr: #571bb8;
+  --tic-clr: #53c8f2;
+  --tac-clr: #fe509b;
+  --start-clr: #4ade80;
+  --reset-clr: #ef4444;
 }
 
 * {
@@ -11,6 +15,7 @@
 
 body {
   background-color: var(--main-clr);
+  opacity: 0.8;
   font-family: "Teko", sans-serif, Georgia, "Times New Roman", Times, serif;
   display: flex;
   height: 100vh;
@@ -23,11 +28,27 @@ body {
   margin-top: 1.5rem;
   text-align: center;
   letter-spacing: 2px;
-  border: 1px white dashed;
+  border: 2px white dashed;
   width: fit-content;
   place-self: center;
-  padding: 8px;
+  display: flex;
+  gap: 5px;
+  font-size: 2rem;
+  padding: 10px;
   border-radius: 5px;
+  text-transform: uppercase;
+}
+
+.tic {
+  color: var(--tic-clr);
+}
+
+.tac {
+  color: var(--tac-clr);
+}
+
+.toe {
+  color: var(--tic-clr);
 }
 /* game board */
 
@@ -37,14 +58,85 @@ body {
   justify-content: space-around;
 }
 
-.gangboard {
+.gameboard {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 }
 
 .child {
-  width: 200;
-  height: 200;
+  width: 200px;
+  height: 200px;
+  /* background-color: white; */
+  border: 2px white dashed;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  font-size: 10rem;
+  align-items: center;
+}
+
+.player1-container,
+.player2-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0rem 1rem;
+  width: 5rem;
+  height: 8rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+}
+
+.player1,
+.player2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  bottom: 1rem;
+  color: #fff;
+}
+
+.player-avatar {
+  padding: 5px;
+  vertical-align: middle;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #fff;
+}
+
+/* btn */
+
+.btn-container {
+  place-self: center;
+  display: flex;
+  gap: 3rem;
+}
+
+.start,
+.reset {
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+}
+
+.start {
+  background-color: var(--start-clr);
+  border-color: var(--start-clr);
+}
+
+.reset {
+  background-color: var(--reset-clr);
+  border-color: var(--reset-clr);
 }
 
 /* footer */
+footer {
+  place-self: center;
+}
+
+footer p {
+  font-size: 1.5rem;
+  padding: 1rem;
+}
