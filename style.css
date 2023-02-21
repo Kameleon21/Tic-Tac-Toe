@@ -21,6 +21,7 @@ body {
   height: 100vh;
   flex-direction: column;
   justify-content: space-between;
+  position: relative;
 }
 
 /* header */
@@ -55,24 +56,36 @@ body {
 .container {
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
+  gap: 8rem;
 }
 
 .gameboard {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  /* border: 1px #fff dashed; */
 }
 
 .child {
   width: 200px;
   height: 200px;
-  /* background-color: white; */
-  border: 2px white dashed;
-  border-radius: 5px;
   display: flex;
   justify-content: center;
   font-size: 10rem;
   align-items: center;
+}
+
+.one,.two,.four,.five {
+  border-right: 1px #fff dashed;
+  border-bottom:  1px #fff dashed;
+}
+
+.three,.six {
+  border-bottom: 1px #fff dashed;
+}
+
+.seven,.eight {
+  border-right: 1px #fff dashed;
 }
 
 .player1-container,
@@ -129,6 +142,59 @@ body {
 .reset {
   background-color: var(--reset-clr);
   border-color: var(--reset-clr);
+}
+
+/* Modal */
+.modal-contain {
+  visibility: hidden;
+  left: 50%;
+  top: 25%;
+  margin-left: -115px;
+  margin-top: -75px;
+  position: absolute;
+  height: 180px;
+  width: 200px;
+  padding: .8rem;
+  background-color: var(--tac-clr);
+}
+
+.modal-contain form  {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-contain label {
+  font-size: 1.4rem;
+}
+
+#name {
+  margin-bottom: .8rem;
+}
+
+.choice-container {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 0.7rem;
+}
+
+.add {
+  padding: 5px 10px;
+  background-color: var(--tic-clr);
+  border-color: var(--tic-clr);
+  border-radius: 1rem;
+}
+
+.choice {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  height: 50px;
+  border: 1px solid black;
+  font-size: 2rem;
 }
 
 /* footer */
