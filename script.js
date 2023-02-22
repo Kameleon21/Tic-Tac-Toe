@@ -1,23 +1,23 @@
 const gameBoardContainer = document.querySelector('.gameboard');
 const startBtn = document.querySelector('.start');
 const resetBtn = document.querySelector('.reset');
+const addPlayer = document.querySelector('.add');
+const modal = document.querySelector('.modal-contain');
 let p1;
 let p2;
 
 /* create gameBoard array inside the gameBoard object */
 const game = (function () {
   const gameBoard = [
-    ['X', 'O', 'X'],
-    ['O', 'X', 'O'],
-    ['X', 'O', 'X'],
+    ['', '', ''],
+    ['', '', ''],
+    ['', '', ''],
   ];
 
   return {
     Gameboard: gameBoard,
   };
 })();
-
-console.log(game.Gameboard);
 
 /* create players factory function */
 function Player(name, choice) {
@@ -33,20 +33,44 @@ function Player(name, choice) {
 
 // function to loop over until 2 players have been created
 const createPlayers = () => {
-  let playerCount = 1;
-  while (playerCount <= 1) {
-    let p1Name = prompt('Player 1 enter your name');
-    let p1Choice = prompt('Choose X or O');
-    p1 = Player(p1Name, p1Choice);
-    if (p1Choice === 'X') {
-      // what ever p1 one choses p2 will be left with the other option
-      let p2Name = prompt('Player 2 enter your name');
-      p2 = Player(p2Name, 'O');
-    } else if (p1Choice === 'O') {
-      let p2Name = prompt('Player 2 enter your name');
-      p2 = Player(p2Name, 'X');
+  const p1Name = document.getElementById('name').value;
+  const allRadioBtn = document.querySelectorAll('input[name="choice"]');
+  let p1Choice;
+  allRadioBtn.forEach((radio) => {
+    if (radio.checked) {
+      p1Choice = radio.value;
     }
-    playerCount++;
-  }
+  });
+  p1 = Player(p1Name, p1Choice);
 };
-createPlayers();
+
+// display the array content on webpage
+function printGameBoard() {
+  let count = 1;
+  for (let i = 0; i < game.Gameboard.length; i++) {
+    for (let j = 0; j < game.Gameboard.length; j++) {
+      const child = document.createElement('div');
+      child.textContent = game.Gameboard[i][j];
+      child.classList.add('child');
+      child.classList.add(`child-${count}`);
+      if (child.textContent.includes('X')) {
+        child.style.color = 'var(--tic-clr)';
+      } else if (child.textContent.includes('O')) {
+        child.style.color = 'var(--tac-clr)';
+      }
+      count++;
+      gameBoardContainer.append(child);
+    }
+  }
+}
+printGameBoard();
+
+// runs the create player
+addPlayer.addEventListener('click', () => {
+  createPlayers();
+  modal.style.visibility = 'hidden';
+});
+
+startBtn.addEventListener('click', () => {
+  modal.style.visibility = 'visible';
+});

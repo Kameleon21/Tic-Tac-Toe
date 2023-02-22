@@ -75,16 +75,16 @@ body {
   align-items: center;
 }
 
-.one,.two,.four,.five {
+.child-1,.child-2,.child-4,.child-5 {
   border-right: 1px #fff dashed;
   border-bottom:  1px #fff dashed;
 }
 
-.three,.six {
+.child-3,.child-6 {
   border-bottom: 1px #fff dashed;
 }
 
-.seven,.eight {
+.child-7,.child-8 {
   border-right: 1px #fff dashed;
 }
 
