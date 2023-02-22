@@ -44,10 +44,18 @@ const createPlayers = () => {
   p1 = Player(p1Name, p1Choice);
 };
 
+// event listener that will add X to Array
+function sayHello(i, j) {
+  game.Gameboard[i][j] = 'X';
+  gameBoardContainer.innerHTML = '';
+  printGameBoard();
+}
+
 // display the array content on webpage
 function printGameBoard() {
   let count = 1;
   for (let i = 0; i < game.Gameboard.length; i++) {
+    //accessing row and then columns
     for (let j = 0; j < game.Gameboard.length; j++) {
       const child = document.createElement('div');
       child.textContent = game.Gameboard[i][j];
@@ -58,6 +66,9 @@ function printGameBoard() {
       } else if (child.textContent.includes('O')) {
         child.style.color = 'var(--tac-clr)';
       }
+      child.addEventListener('click', () => {
+        sayHello(i, j);
+      });
       count++;
       gameBoardContainer.append(child);
     }
@@ -74,3 +85,8 @@ addPlayer.addEventListener('click', () => {
 startBtn.addEventListener('click', () => {
   modal.style.visibility = 'visible';
 });
+
+// resetBtn.addEventListener('click', () => {
+//   gameBoardContainer.innerHTML = '';
+//   printGameBoard();
+// });
