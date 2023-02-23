@@ -3,6 +3,9 @@ const startBtn = document.querySelector('.start');
 const resetBtn = document.querySelector('.reset');
 const addPlayer = document.querySelector('.add');
 const modal = document.querySelector('.modal-contain');
+const p1Avatar = document.querySelector('.player1');
+const p2Avatar = document.querySelector('.player2');
+const enterName = document.querySelector('label[for="Name"]');
 let p1;
 let p2;
 
@@ -26,8 +29,8 @@ function Player(name, choice) {
   const getChoice = () => choice;
 
   // public functions
-  const printName = () => `Nice to meet you ${getName()}`;
-  const printChoice = () => `You chose ${getChoice()}`;
+  const printName = () => `${getName()}`;
+  const printChoice = () => `${getChoice()}`;
   return { printName, printChoice };
 }
 
@@ -42,13 +45,25 @@ const createPlayers = () => {
     }
   });
   p1 = Player(p1Name, p1Choice);
+  const p1NamePara = document.createElement('p');
+  p1NamePara.innerText = p1.printName();
+  p1Avatar.appendChild(p1NamePara);
 };
 
 // event listener that will add X to Array
-function sayHello(i, j) {
-  game.Gameboard[i][j] = 'X';
+function printChoice(i, j) {
+  game.Gameboard[i][j] = p1.printChoice();
   gameBoardContainer.innerHTML = '';
   printGameBoard();
+}
+
+// clear the GameBoard array after the reset is pressed
+function clearBoard() {
+  for (let i = 0; i < game.Gameboard.length; i++) {
+    for (let j = 0; j < game.Gameboard.length; j++) {
+      game.Gameboard[i][j] = '';
+    }
+  }
 }
 
 // display the array content on webpage
@@ -67,26 +82,27 @@ function printGameBoard() {
         child.style.color = 'var(--tac-clr)';
       }
       child.addEventListener('click', () => {
-        sayHello(i, j);
+        printChoice(i, j);
       });
       count++;
       gameBoardContainer.append(child);
     }
   }
 }
-printGameBoard();
 
 // runs the create player
 addPlayer.addEventListener('click', () => {
-  createPlayers();
   modal.style.visibility = 'hidden';
+  createPlayers();
 });
 
 startBtn.addEventListener('click', () => {
   modal.style.visibility = 'visible';
+  printGameBoard();
 });
 
-// resetBtn.addEventListener('click', () => {
-//   gameBoardContainer.innerHTML = '';
-//   printGameBoard();
-// });
+resetBtn.addEventListener('click', () => {
+  gameBoardContainer.innerHTML = '';
+  clearBoard();
+  printGameBoard();
+});
