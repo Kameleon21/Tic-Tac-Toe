@@ -152,7 +152,7 @@ body {
   margin-left: -115px;
   margin-top: -75px;
   position: absolute;
-  height: 180px;
+  height: 220px;
   width: 200px;
   padding: .8rem;
   background-color: var(--tac-clr);
@@ -167,6 +167,10 @@ body {
 
 .modal-contain label {
   font-size: 1.4rem;
+}
+
+#player2 {
+  margin-bottom: 1rem;
 }
 
 #name {

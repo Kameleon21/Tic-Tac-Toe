@@ -7,6 +7,8 @@ const p1Avatar = document.querySelector('.player1');
 const p2Avatar = document.querySelector('.player2');
 const enterName = document.querySelector('label[for="Name"]');
 let turn = 0;
+let p1;
+let p2;
 
 /* create gameBoard array inside the gameBoard object */
 const game = (function () {
@@ -33,24 +35,71 @@ function Player(name, choice) {
   return { printName, printChoice };
 }
 
-let p1 = Player('Bill', 'X');
-let p2 = Player('Sam', 'O');
+// pick player 1 will be
+function player1Choice(name, choice) {
+  p1 = Player(name, choice);
+  // create element
+  const p1NamePara = document.createElement('p');
+  const p1ChoiceDisplay = document.createElement('p');
+  // assign value to it
+  p1ChoiceDisplay.innerText = p1.printChoice();
+  p1NamePara.innerText = p1.printName();
+  // add class
+  p1NamePara.classList.add('remove1');
+  p1ChoiceDisplay.classList.add('remove1');
+  // append to parent
+  p1Avatar.appendChild(p1NamePara);
+  p1Avatar.appendChild(p1ChoiceDisplay);
+}
+
+// pick what player player 2 will be
+function player2Choice(choice) {
+  let p2Name = document.getElementById('player2').value;
+  if (choice.includes('X')) {
+    p2 = Player(p2Name, 'O');
+    // create element
+    const p2ChoiceDisplay = document.createElement('p');
+    const p2NamePara = document.createElement('p');
+    // assign value to it
+    p2NamePara.innerText = p2.printName();
+    p2ChoiceDisplay.innerText = p2.printChoice();
+    // add class
+    p2NamePara.classList.add('remove2');
+    p2ChoiceDisplay.classList.add('remove2');
+    // append to parent
+    p2Avatar.appendChild(p2NamePara);
+    p2Avatar.appendChild(p2ChoiceDisplay);
+  } else if (choice.includes('O')) {
+    p2 = Player(p2Name, 'X');
+    // create element
+    const p2ChoiceDisplay = document.createElement('p');
+    const p2NamePara = document.createElement('p');
+    // assign value to it
+    p2NamePara.innerText = p2.printName();
+    p2ChoiceDisplay.innerText = p2.printChoice();
+    // add class
+    p2NamePara.classList.add('remove2');
+    p2ChoiceDisplay.classList.add('remove2');
+    // append to parent
+    p2Avatar.appendChild(p2NamePara);
+    p2Avatar.appendChild(p2ChoiceDisplay);
+  }
+}
 
 // function to loop over until 2 players have been created
-// const createPlayers = () => {
-//   const p1Name = document.getElementById('name').value;
-//   const allRadioBtn = document.querySelectorAll('input[name="choice"]');
-//   let p1Choice;
-//   allRadioBtn.forEach((radio) => {
-//     if (radio.checked) {
-//       p1Choice = radio.value;
-//     }
-//   });
-//   p1 = Player(p1Name, p1Choice);
-//   const p1NamePara = document.createElement('p');
-//   p1NamePara.innerText = p1.printName();
-//   p1Avatar.appendChild(p1NamePara);
-// };
+const createPlayers = () => {
+  let p1Name = document.getElementById('name').value;
+  const allRadioBtn = document.querySelectorAll('input[name="choice"]');
+  let p1Choice;
+  allRadioBtn.forEach((radio) => {
+    if (radio.checked) {
+      p1Choice = radio.value;
+    }
+  });
+  player1Choice(p1Name, p1Choice);
+  player2Choice(p1Choice);
+  modal.style.visibility = 'hidden';
+};
 
 // event listener that will add X to Array
 function printChoice(i, j) {
@@ -98,11 +147,32 @@ function printGameBoard() {
     }
   }
 }
-printGameBoard();
+
+// clear modal results
+function clearModal() {
+  let p1Name = document.getElementById('name');
+  const RadioBtn = (document.querySelector(
+    'input[name="choice"]:checked'
+  ).checked = false);
+  let p2Name = document.getElementById('player2');
+  p1Name.value = '';
+  p2Name.value = '';
+}
+
+// clear player avatar
+function clearPlayerAvatar() {
+  const removeParas1 = document.querySelectorAll('.remove1');
+  const removeParas2 = document.querySelectorAll('.remove2');
+  removeParas1.forEach((para) => {
+    p1Avatar.removeChild(para);
+  });
+  removeParas2.forEach((para) => {
+    p2Avatar.removeChild(para);
+  });
+}
 
 // runs the create player
 addPlayer.addEventListener('click', () => {
-  modal.style.visibility = 'hidden';
   createPlayers();
 });
 
@@ -114,5 +184,6 @@ startBtn.addEventListener('click', () => {
 resetBtn.addEventListener('click', () => {
   gameBoardContainer.innerHTML = '';
   clearBoard();
-  printGameBoard();
+  clearModal();
+  clearPlayerAvatar();
 });
