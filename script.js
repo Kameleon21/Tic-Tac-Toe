@@ -35,7 +35,7 @@ function Player(name, choice) {
   return { printName, printChoice };
 }
 
-// pick player 1 will be
+// create player 1 and assign values to the avatar card
 function player1Choice(name, choice) {
   p1 = Player(name, choice);
   // create element
@@ -52,7 +52,7 @@ function player1Choice(name, choice) {
   p1Avatar.appendChild(p1ChoiceDisplay);
 }
 
-// pick what player player 2 will be
+// create player and assign values to the avatar card
 function player2Choice(choice) {
   let p2Name = document.getElementById('player2').value;
   if (choice.includes('X')) {
@@ -101,14 +101,26 @@ const createPlayers = () => {
   modal.style.visibility = 'hidden';
 };
 
-// event listener that will add X to Array
+// event listener that will add X or O to Array
 function printChoice(i, j) {
   if (turn === 0) {
-    game.Gameboard[i][j] = p1.printChoice();
-    turn++;
+    if (game.Gameboard[i][j].includes('X')) {
+      game.Gameboard[i][j] = 'X';
+    } else if (game.Gameboard[i][j].includes('O')) {
+      game.Gameboard[i][j] = 'O';
+    } else {
+      game.Gameboard[i][j] = p1.printChoice();
+      turn++;
+    }
   } else if (turn === 1) {
-    game.Gameboard[i][j] = p2.printChoice();
-    turn--;
+    if (game.Gameboard[i][j].includes('X')) {
+      game.Gameboard[i][j] = 'X';
+    } else if (game.Gameboard[i][j].includes('O')) {
+      game.Gameboard[i][j] = 'O';
+    } else {
+      game.Gameboard[i][j] = p2.printChoice();
+      turn--;
+    }
   }
   gameBoardContainer.innerHTML = '';
   printGameBoard();
@@ -123,6 +135,8 @@ function clearBoard() {
     }
   }
 }
+
+// function to prevent users from playing in already taken spots
 
 // display the array content on webpage
 function printGameBoard() {
@@ -139,7 +153,7 @@ function printGameBoard() {
       } else if (child.textContent.includes('O')) {
         child.style.color = 'var(--tac-clr)';
       }
-      child.addEventListener('click', () => {
+      child.addEventListener('click', (e) => {
         printChoice(i, j);
       });
       count++;
@@ -159,7 +173,7 @@ function clearModal() {
   p2Name.value = '';
 }
 
-// clear player avatar
+// clear player avatar and p1/p2 values
 function clearPlayerAvatar() {
   const removeParas1 = document.querySelectorAll('.remove1');
   const removeParas2 = document.querySelectorAll('.remove2');
@@ -169,6 +183,8 @@ function clearPlayerAvatar() {
   removeParas2.forEach((para) => {
     p2Avatar.removeChild(para);
   });
+  p1 = undefined;
+  p2 = undefined;
 }
 
 // runs the create player
