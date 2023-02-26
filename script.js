@@ -136,7 +136,86 @@ function clearBoard() {
   }
 }
 
-// function to prevent users from playing in already taken spots
+// checking for win state
+function winnerCheck() {
+  if (
+    (game.Gameboard[0][2] === p1.printChoice() &&
+      game.Gameboard[1][1] === p1.printChoice() &&
+      game.Gameboard[2][0] === p1.printChoice()) ||
+    (game.Gameboard[0][0] === p1.printChoice() &&
+      game.Gameboard[1][1] === p1.printChoice() &&
+      game.Gameboard[2][2] === p1.printChoice()) ||
+    (game.Gameboard[0][0] === p1.printChoice() &&
+      game.Gameboard[0][1] === p1.printChoice() &&
+      game.Gameboard[0][2] === p1.printChoice()) ||
+    (game.Gameboard[1][0] === p1.printChoice() &&
+      game.Gameboard[1][1] === p1.printChoice() &&
+      game.Gameboard[1][2] === p1.printChoice()) ||
+    (game.Gameboard[2][0] === p1.printChoice() &&
+      game.Gameboard[2][1] === p1.printChoice() &&
+      game.Gameboard[2][2] === p1.printChoice()) ||
+    (game.Gameboard[0][2] === p1.printChoice() &&
+      game.Gameboard[1][1] === p1.printChoice() &&
+      game.Gameboard[2][0] === p1.printChoice()) ||
+    (game.Gameboard[0][0] === p1.printChoice() &&
+      game.Gameboard[1][0] === p1.printChoice() &&
+      game.Gameboard[2][0] === p1.printChoice()) ||
+    (game.Gameboard[0][1] === p1.printChoice() &&
+      game.Gameboard[1][1] === p1.printChoice() &&
+      game.Gameboard[2][1] === p1.printChoice()) ||
+    (game.Gameboard[0][2] === p1.printChoice() &&
+      game.Gameboard[1][2] === p1.printChoice() &&
+      game.Gameboard[2][2] === p1.printChoice())
+  ) {
+    endRound(p1.printName());
+  } else if (
+    (game.Gameboard[0][2] === p2.printChoice() &&
+      game.Gameboard[1][1] === p2.printChoice() &&
+      game.Gameboard[2][0] === p2.printChoice()) ||
+    (game.Gameboard[0][0] === p2.printChoice() &&
+      game.Gameboard[1][1] === p2.printChoice() &&
+      game.Gameboard[2][2] === p2.printChoice()) ||
+    (game.Gameboard[0][0] === p2.printChoice() &&
+      game.Gameboard[0][1] === p2.printChoice() &&
+      game.Gameboard[0][2] === p2.printChoice()) ||
+    (game.Gameboard[1][0] === p2.printChoice() &&
+      game.Gameboard[1][1] === p2.printChoice() &&
+      game.Gameboard[1][2] === p2.printChoice()) ||
+    (game.Gameboard[2][0] === p2.printChoice() &&
+      game.Gameboard[2][1] === p2.printChoice() &&
+      game.Gameboard[2][2] === p2.printChoice()) ||
+    (game.Gameboard[0][2] === p2.printChoice() &&
+      game.Gameboard[1][1] === p2.printChoice() &&
+      game.Gameboard[2][0] === p2.printChoice()) ||
+    (game.Gameboard[0][0] === p2.printChoice() &&
+      game.Gameboard[1][0] === p2.printChoice() &&
+      game.Gameboard[2][0] === p2.printChoice()) ||
+    (game.Gameboard[0][1] === p2.printChoice() &&
+      game.Gameboard[1][1] === p2.printChoice() &&
+      game.Gameboard[2][1] === p2.printChoice()) ||
+    (game.Gameboard[0][2] === p2.printChoice() &&
+      game.Gameboard[1][2] === p2.printChoice() &&
+      game.Gameboard[2][2] === p2.printChoice())
+  ) {
+    endRound(p2.printName());
+  }
+}
+
+// button to clear the screen once user clicks the ok btn for popup
+function nextRound() {
+  gameBoardContainer.innerHTML = '';
+  clearBoard();
+  printGameBoard();
+}
+
+// Popup to congratulate the winner
+function endRound(playerName) {
+  const popDiv = document.createElement('div');
+  popDiv.innerHTML = `<p>Congratulations ${playerName}, you won this game!</p>
+  <button class="congratsBtn" onclick="nextRound()">Ok</button>`;
+  popDiv.classList.add('congratsPop');
+  gameBoardContainer.appendChild(popDiv);
+}
 
 // display the array content on webpage
 function printGameBoard() {
@@ -155,6 +234,7 @@ function printGameBoard() {
       }
       child.addEventListener('click', (e) => {
         printChoice(i, j);
+        winnerCheck();
       });
       count++;
       gameBoardContainer.append(child);
