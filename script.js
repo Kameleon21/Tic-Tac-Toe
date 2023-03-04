@@ -7,8 +7,11 @@ const p1Avatar = document.querySelector('.player1');
 const p2Avatar = document.querySelector('.player2');
 const enterName = document.querySelector('label[for="Name"]');
 let turn = 0;
-let p1;
-let p2;
+let p1 = 0;
+let p2 = 0;
+// count used to to print it to the screen
+let p1Count = 0;
+let p2Count = 0;
 
 /* create gameBoard array inside the gameBoard object */
 const game = (function () {
@@ -41,15 +44,19 @@ function player1Choice(name, choice) {
   // create element
   const p1NamePara = document.createElement('p');
   const p1ChoiceDisplay = document.createElement('p');
+  const p1DisplayCount = document.createElement('p');
   // assign value to it
   p1ChoiceDisplay.innerText = p1.printChoice();
   p1NamePara.innerText = p1.printName();
+  p1DisplayCount.innerText = `Score: ${p1Count}`;
   // add class
   p1NamePara.classList.add('remove1');
   p1ChoiceDisplay.classList.add('remove1');
+  p1DisplayCount.classList.add('remove1');
   // append to parent
   p1Avatar.appendChild(p1NamePara);
   p1Avatar.appendChild(p1ChoiceDisplay);
+  p1Avatar.appendChild(p1DisplayCount);
 }
 
 // create player and assign values to the avatar card
@@ -60,29 +67,37 @@ function player2Choice(choice) {
     // create element
     const p2ChoiceDisplay = document.createElement('p');
     const p2NamePara = document.createElement('p');
+    const p2DisplayCount = document.createElement('p');
     // assign value to it
     p2NamePara.innerText = p2.printName();
     p2ChoiceDisplay.innerText = p2.printChoice();
+    p2DisplayCount.innerText = `Score: ${p2Count}`;
     // add class
     p2NamePara.classList.add('remove2');
     p2ChoiceDisplay.classList.add('remove2');
+    p2DisplayCount.classList.add('remove2');
     // append to parent
     p2Avatar.appendChild(p2NamePara);
     p2Avatar.appendChild(p2ChoiceDisplay);
+    p2Avatar.appendChild(p2DisplayCount);
   } else if (choice.includes('O')) {
     p2 = Player(p2Name, 'X');
     // create element
     const p2ChoiceDisplay = document.createElement('p');
     const p2NamePara = document.createElement('p');
+    const p2DisplayCount = document.createElement('p');
     // assign value to it
     p2NamePara.innerText = p2.printName();
     p2ChoiceDisplay.innerText = p2.printChoice();
+    p2DisplayCount.innerText = `Score: ${p2Count}`;
     // add class
     p2NamePara.classList.add('remove2');
     p2ChoiceDisplay.classList.add('remove2');
+    p2DisplayCount.classList.add('remove2');
     // append to parent
     p2Avatar.appendChild(p2NamePara);
     p2Avatar.appendChild(p2ChoiceDisplay);
+    p2Avatar.appendChild(p2DisplayCount);
   }
 }
 
@@ -136,6 +151,15 @@ function clearBoard() {
   }
 }
 
+// Popup to congratulate the winner
+function endRound(playerName) {
+  const popDiv = document.createElement('div');
+  popDiv.innerHTML = `<p>Congratulations ${playerName}, you won this game!</p>
+  <button class="congratsBtn" onclick="nextRound()">Ok</button>`;
+  popDiv.classList.add('congratsPop');
+  gameBoardContainer.appendChild(popDiv);
+}
+
 // checking for win state
 function winnerCheck() {
   if (
@@ -168,6 +192,7 @@ function winnerCheck() {
       game.Gameboard[2][2] === p1.printChoice())
   ) {
     endRound(p1.printName());
+    p1Count++;
   } else if (
     (game.Gameboard[0][2] === p2.printChoice() &&
       game.Gameboard[1][1] === p2.printChoice() &&
@@ -198,6 +223,7 @@ function winnerCheck() {
       game.Gameboard[2][2] === p2.printChoice())
   ) {
     endRound(p2.printName());
+    p2Count++;
   }
 }
 
@@ -206,15 +232,8 @@ function nextRound() {
   gameBoardContainer.innerHTML = '';
   clearBoard();
   printGameBoard();
-}
-
-// Popup to congratulate the winner
-function endRound(playerName) {
-  const popDiv = document.createElement('div');
-  popDiv.innerHTML = `<p>Congratulations ${playerName}, you won this game!</p>
-  <button class="congratsBtn" onclick="nextRound()">Ok</button>`;
-  popDiv.classList.add('congratsPop');
-  gameBoardContainer.appendChild(popDiv);
+  clearPlayerAvatar2();
+  createPlayers();
 }
 
 // display the array content on webpage
@@ -265,6 +284,20 @@ function clearPlayerAvatar() {
   });
   p1 = undefined;
   p2 = undefined;
+  p1Count = 0;
+  p2Count = 0;
+}
+
+// second clear player avatar when one round in played to clear the the avatar modal
+function clearPlayerAvatar2() {
+  const removeParas1 = document.querySelectorAll('.remove1');
+  const removeParas2 = document.querySelectorAll('.remove2');
+  removeParas1.forEach((para) => {
+    p1Avatar.removeChild(para);
+  });
+  removeParas2.forEach((para) => {
+    p2Avatar.removeChild(para);
+  });
 }
 
 // runs the create player
