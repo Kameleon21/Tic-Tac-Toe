@@ -14,8 +14,14 @@
       <div class="toe">Toe</div>
     </header>
 
+    <!-- Instructions to players -->
+    <aside>
+      <h2>Instructions</h2>
+      <p>First player to reach 3 points wins</p>
+    </aside>
+
     <!-- main gameboard and player details -->
-    <main class="container">
+    <main class="container displayMode">
       <div class="player1-container">
         <div class="player1">
           <img
@@ -50,14 +56,14 @@
     <div class="modal-contain">
       <form method="post">
         <label for="Name">Enter Player 1 Name</label>
-        <input type="text" name="Name" id="name" autofocus/>
+        <input type="text" name="Name" id="name" autofocus />
         <label for="choice">Choose What You Want To Be</label>
         <div class="choice-container">
           <input type="radio" name="choice" id="" value="X" />X
           <input type="radio" name="choice" id="" value="O" />O
         </div>
         <label for="player2">Enter Player 2 Name</label>
-        <input type="text" name="player2" id="player2">
+        <input type="text" name="player2" id="player2" />
         <button type="button" class="add">Add Player</button>
       </form>
     </div>

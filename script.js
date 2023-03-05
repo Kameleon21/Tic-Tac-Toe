@@ -6,6 +6,8 @@ const modal = document.querySelector('.modal-contain');
 const p1Avatar = document.querySelector('.player1');
 const p2Avatar = document.querySelector('.player2');
 const enterName = document.querySelector('label[for="Name"]');
+const aside = document.querySelector('aside');
+const container = document.querySelector('.container');
 let turn = 0;
 let p1 = 0;
 let p2 = 0;
@@ -160,6 +162,18 @@ function endRound(playerName) {
   gameBoardContainer.appendChild(popDiv);
 }
 
+// Check if the p1/p2 Count equals to 3 if yes restart the game
+function checkForThree() {
+  if (p1Count === 3 || p2Count === 3) {
+    gameBoardContainer.innerHTML = '';
+    clearBoard();
+    clearModal();
+    clearPlayerAvatar();
+    p1Count = 0;
+    p2Count = 0;
+  }
+}
+
 // checking for win state
 function winnerCheck() {
   if (
@@ -193,6 +207,7 @@ function winnerCheck() {
   ) {
     endRound(p1.printName());
     p1Count++;
+    checkForThree();
   } else if (
     (game.Gameboard[0][2] === p2.printChoice() &&
       game.Gameboard[1][1] === p2.printChoice() &&
@@ -224,6 +239,7 @@ function winnerCheck() {
   ) {
     endRound(p2.printName());
     p2Count++;
+    checkForThree();
   }
 }
 
@@ -300,6 +316,24 @@ function clearPlayerAvatar2() {
   });
 }
 
+// make aside disapper when start btn is clicked on
+function hideAside() {
+  if (container.classList.contains('displayMode')) {
+    container.classList.remove('displayMode');
+  } else {
+    container.classList.add('displayMode');
+  }
+}
+
+// show the container bored
+function showGameBoard() {
+  if (aside.classList.contains('displayMode')) {
+    aside.classList.remove('displayMode');
+  } else {
+    aside.classList.add('displayMode');
+  }
+}
+
 // runs the create player
 addPlayer.addEventListener('click', () => {
   createPlayers();
@@ -308,6 +342,8 @@ addPlayer.addEventListener('click', () => {
 startBtn.addEventListener('click', () => {
   modal.style.visibility = 'visible';
   printGameBoard();
+  hideAside();
+  showGameBoard();
 });
 
 resetBtn.addEventListener('click', () => {
@@ -315,4 +351,6 @@ resetBtn.addEventListener('click', () => {
   clearBoard();
   clearModal();
   clearPlayerAvatar();
+  hideAside();
+  showGameBoard();
 });
