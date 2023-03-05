@@ -11,6 +11,7 @@ const container = document.querySelector('.container');
 let turn = 0;
 let p1 = 0;
 let p2 = 0;
+let moves = 0;
 // count used to to print it to the screen
 let p1Count = 0;
 let p2Count = 0;
@@ -127,6 +128,7 @@ function printChoice(i, j) {
       game.Gameboard[i][j] = 'O';
     } else {
       game.Gameboard[i][j] = p1.printChoice();
+      moves++;
       turn++;
     }
   } else if (turn === 1) {
@@ -136,6 +138,7 @@ function printChoice(i, j) {
       game.Gameboard[i][j] = 'O';
     } else {
       game.Gameboard[i][j] = p2.printChoice();
+      moves++;
       turn--;
     }
   }
@@ -156,21 +159,33 @@ function clearBoard() {
 // Popup to congratulate the winner
 function endRound(playerName) {
   const popDiv = document.createElement('div');
-  popDiv.innerHTML = `<p>Congratulations ${playerName}, you won this game!</p>
+  popDiv.innerHTML = `<p>${playerName}, you won this round!</p>
   <button class="congratsBtn" onclick="nextRound()">Ok</button>`;
   popDiv.classList.add('congratsPop');
   gameBoardContainer.appendChild(popDiv);
 }
 
+// function to restart the whole game after player reaches 3 points
+function startOver() {
+  gameBoardContainer.innerHTML = '';
+  clearBoard();
+  clearPlayerAvatar2();
+  clearModal();
+  hideAside();
+  showGameBoard();
+  p1Count = 0;
+  p2Count = 0;
+}
+
 // Check if the p1/p2 Count equals to 3 if yes restart the game
-function checkForThree() {
+function checkForThree(playerName) {
   if (p1Count === 3 || p2Count === 3) {
-    gameBoardContainer.innerHTML = '';
-    clearBoard();
-    clearModal();
-    clearPlayerAvatar();
-    p1Count = 0;
-    p2Count = 0;
+    const congratsDiv = document.createElement('div');
+    congratsDiv.innerHTML = `<p>${playerName} won this Game! Congratulations \n
+    Click ok to start a new Game!</p>
+    <button class="congratsBtn" onclick="startOver()">Ok</button>`;
+    congratsDiv.classList.add('congratsPop');
+    gameBoardContainer.appendChild(congratsDiv);
   }
 }
 
@@ -207,7 +222,8 @@ function winnerCheck() {
   ) {
     endRound(p1.printName());
     p1Count++;
-    checkForThree();
+    checkForThree(p1.printName());
+    moves = 0;
   } else if (
     (game.Gameboard[0][2] === p2.printChoice() &&
       game.Gameboard[1][1] === p2.printChoice() &&
@@ -239,7 +255,11 @@ function winnerCheck() {
   ) {
     endRound(p2.printName());
     p2Count++;
-    checkForThree();
+    checkForThree(p2.printName());
+    moves = 0;
+  } else if (moves >= 9) {
+    nextRound();
+    moves = 0;
   }
 }
 
@@ -316,7 +336,7 @@ function clearPlayerAvatar2() {
   });
 }
 
-// make aside disapper when start btn is clicked on
+// make aside disappear when start btn is clicked on
 function hideAside() {
   if (container.classList.contains('displayMode')) {
     container.classList.remove('displayMode');
@@ -347,10 +367,11 @@ startBtn.addEventListener('click', () => {
 });
 
 resetBtn.addEventListener('click', () => {
+  modal.style.visibility = 'hidden';
   gameBoardContainer.innerHTML = '';
   clearBoard();
-  clearModal();
   clearPlayerAvatar();
   hideAside();
   showGameBoard();
+  clearModal();
 });
