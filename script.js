@@ -180,6 +180,7 @@ function startOver() {
 // Check if the p1/p2 Count equals to 3 if yes restart the game
 function checkForThree(playerName) {
   if (p1Count === 3 || p2Count === 3) {
+    
     const congratsDiv = document.createElement('div');
     congratsDiv.innerHTML = `<p>${playerName} won this Game! Congratulations \n
     Click ok to start a new Game!</p>
@@ -187,6 +188,15 @@ function checkForThree(playerName) {
     congratsDiv.classList.add('congratsPop');
     gameBoardContainer.appendChild(congratsDiv);
   }
+}
+
+// if the game is a tie give a user a prompt
+function tiePrompt() {
+  const tie = document.createElement('div');
+  tie.innerHTML = `<p>This round was close tie.</p>
+  <button class="congratsBtn" onclick="nextRound()">Ok</button>`;
+  tie.classList.add('congratsPop');
+  gameBoardContainer.appendChild(tie);
 }
 
 // checking for win state
@@ -258,7 +268,7 @@ function winnerCheck() {
     checkForThree(p2.printName());
     moves = 0;
   } else if (moves >= 9) {
-    nextRound();
+    tiePrompt();
     moves = 0;
   }
 }
