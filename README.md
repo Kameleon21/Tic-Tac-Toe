@@ -23,4 +23,4 @@ The biggest challenge I found with this project was trying to figure out how to 
 
 Pull requests are welcomed. For major changes, please open an issue first to discuss what you would like to change.
 
-Please make sure to update tests as appropriate. photo credit - Susan Q Yin
+Please make sure to update tests as appropriate.
